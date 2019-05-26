@@ -1,0 +1,5 @@
+{
+  "displayName": "Toolkit Launcher",
+  "main": "index.js",
+  "view": "view"
+}
