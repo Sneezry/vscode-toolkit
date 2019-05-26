@@ -8,6 +8,10 @@
 	},
 	"publisher": "sneezry",
 	"icon": "toolkit.png",
+	"repository": {
+    "type": "git",
+    "url": "https://github.com/Sneezry/vscode-toolkit.git"
+  },
 	"categories": [
 		"Other"
 	],
