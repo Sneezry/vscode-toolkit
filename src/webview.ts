@@ -52,7 +52,7 @@ export class Webview {
       for (let index = 0; index < resolveStack.length; index++) {
         const resolveItem = resolveStack[index];
         if (resolveItem.messageId === message.messageId) {
-          resolveItem.resolve(resolveItem.result);
+          resolveItem.resolve(message.result);
           resolveStack.splice(index, 1);
           break;
         }

@@ -2,16 +2,16 @@
 	"name": "vscode-toolkit",
 	"displayName": "Toolkit",
 	"description": "Toolkit Runs on VS Code",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.29.0"
 	},
 	"publisher": "sneezry",
 	"icon": "toolkit.png",
 	"repository": {
-    "type": "git",
-    "url": "https://github.com/Sneezry/vscode-toolkit.git"
-  },
+		"type": "git",
+		"url": "https://github.com/Sneezry/vscode-toolkit.git"
+	},
 	"categories": [
 		"Other"
 	],
