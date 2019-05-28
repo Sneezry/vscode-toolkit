@@ -1,5 +1,5 @@
 {
-  "displayName": "Toolkit Launcher",
+  "displayName": "Beaker Launcher",
   "main": "index.js",
   "view": "view"
 }
