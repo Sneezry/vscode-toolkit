@@ -1,0 +1,6 @@
+{
+  "displayName": "Square",
+  "icon": "square.png",
+  "main": "index.js",
+  "view": "view"
+}

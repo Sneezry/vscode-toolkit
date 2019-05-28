@@ -4,14 +4,19 @@ import * as vscode from 'vscode';
 
 import {FsPromise} from './fsPromise';
 import {Launcher} from './launcher';
+import {WebviewStack} from './webviewStack';
 
 export class Webview {
   private panel: vscode.WebviewPanel|undefined;
   constructor(
-      private isBuiltinApp: boolean, private name: string,
+      private id: string, private isBuiltinApp: boolean, private name: string,
       private rootPath: string, private launcher: Launcher) {}
 
   async show() {
+    if (this.panel) {
+      this.panel.reveal(vscode.ViewColumn.One);
+      return;
+    }
     const pagePath = path.join(this.rootPath, 'index.html');
     const pageExsits = await FsPromise.exists(pagePath);
     if (!pageExsits) {
@@ -106,6 +111,7 @@ export class Webview {
     });
     this.panel.onDidDispose(() => {
       try {
+        delete WebviewStack.stack[this.id];
         this.launcher.entry.destroy();
       } catch (ignore) {
       }

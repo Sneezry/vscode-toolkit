@@ -1,0 +1,188 @@
+@font-face {
+  font-family: Oswald;
+  src: url(Oswald-Regular.ttf);
+}
+
+body {
+  margin: 20px;
+  font-family: Oswald;
+  user-select: none;
+}
+
+.item {
+  width: 150px;
+  height: 300px;
+  margin: 20px 5px;
+  float: left;
+  position: relative;
+  background-color: white;
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.item:hover::after {
+  content: "";
+  display: block;
+  background: rgba(0, 0, 0, 0.15);
+  width: 150px;
+  height: 300px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 20;
+}
+
+.item .bg {
+  width: 300px;
+  height: 300px;
+  background-size: cover;
+  filter: grayscale(80%) blur(5px) opacity(75%);
+  transform: rotate(15deg);
+  position: absolute;
+  left: -30px;
+}
+
+.item .icon {
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  right: 5px;
+  bottom: 73px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 10;
+}
+
+.item .info {
+  position: absolute;
+  width: 150px;
+  height: 63px;
+  bottom: 0;
+  text-align: right;
+  background: white;
+  padding-top: 30px;
+}
+
+.item .info .display-name,
+.item .info .publisher {
+  color: black;
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+
+.item .info .display-name {
+  height: 23px;
+  line-height: 23px;
+  font-size: 16px;
+}
+
+.item .info .publisher {
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+}
+
+#detail {
+  width: 660px;
+  margin: 20px auto;
+  position: relative;
+  background: white;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.35);
+  padding: 20px;
+  display: none;
+  color: black;
+}
+
+.header {
+  height: 100px;
+  position: relative;
+}
+
+.header .icon {
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 7px 20px 0 0;
+  float: left;
+}
+
+.header h1 {
+  margin: 0;
+  width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header .publisher {
+  margin: 0;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header button {
+  width: 100px;
+  height: 30px;
+  background: DodgerBlue;
+  border: none;
+  color: white;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  outline: none;
+}
+
+.header button:disabled {
+  background: #ccc;
+  color: gray;
+}
+
+.header button.installed {
+  background: white;
+  color: gray;
+  border: 1px solid gray;
+}
+
+.header .back {
+  position: absolute;
+  color: black;
+  font-size: 14px;
+  top: 20px;
+  right: 20px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#readme {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#readme.loading {
+  height: 128px;
+  background-image: url(loading.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px 64px;
+}
+
+#list.loading {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 256px;
+  overflow: hidden;
+  background-image: url(loading.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 128px;
+}

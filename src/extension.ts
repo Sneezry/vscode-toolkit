@@ -3,6 +3,8 @@ import * as vscode from 'vscode';
 import {Gallery} from './gallery';
 import {Launcher} from './launcher';
 import {Notification} from './notification';
+import {Webview} from './webview';
+import {WebviewStack} from './webviewStack';
 
 export async function activate(context: vscode.ExtensionContext) {
   const bar =
@@ -10,7 +12,7 @@ export async function activate(context: vscode.ExtensionContext) {
   bar.color = '#4CAF50';
   bar.text = '$(beaker)';
   bar.command = 'vscode-toolkit.gallery';
-  bar.tooltip = 'Toolkit Launcher';
+  bar.tooltip = 'Beaker Launcher';
   bar.show();
 
   let gallery =
@@ -19,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
           await Gallery.init();
         } catch (error) {
           Notification.show(
-              'error', 'Toolkit launcher initialize failed.',
+              'error', 'Beaker launcher initialize failed.',
               (error as Error).message);
           return;
         }
@@ -31,10 +33,15 @@ export async function activate(context: vscode.ExtensionContext) {
       'vscode-toolkit.getApps', Gallery.getApps);
 
   let launcher =
-      vscode.commands.registerCommand('vscode-toolkit.launch', (id: string) => {
+      vscode.commands.registerCommand('vscode-toolkit.launch', async (id: string) => {
+        if (WebviewStack.stack[id]) {
+          WebviewStack.stack[id].show();
+          return;
+        }
         const launcher = new Launcher(id);
         try {
-          launcher.run();
+          await launcher.run();
+          WebviewStack.stack[id] = launcher.webview as Webview;
         } catch (error) {
           Notification.log((error as Error).message);
         }

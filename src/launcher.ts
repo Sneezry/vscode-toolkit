@@ -77,7 +77,7 @@ export class Launcher {
             reject(error);
           }
           this.webview = new Webview(
-              isBuiltinApp, packageJson.displayName, viewPath, this);
+              this.id, isBuiltinApp, packageJson.displayName, viewPath, this);
 
           try {
             await this.webview.show();

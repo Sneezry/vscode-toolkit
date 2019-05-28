@@ -2,7 +2,7 @@
 	"name": "vscode-toolkit",
 	"displayName": "Beaker",
 	"description": "Toolkit Runs in VS Code",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.29.0"
 	},
@@ -34,6 +34,7 @@
 		"vscode": "^1.1.28"
 	},
 	"dependencies": {
-		"adm-zip": "^0.4.13"
+		"adm-zip": "^0.4.13",
+		"markdown-it": "^8.4.2"
 	}
 }

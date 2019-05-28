@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-const channel = vscode.window.createOutputChannel('Toolkit');
+const channel = vscode.window.createOutputChannel('Beaker');
 
 export class Notification {
   static show(
