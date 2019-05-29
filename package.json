@@ -35,6 +35,7 @@
 	},
 	"dependencies": {
 		"adm-zip": "^0.4.13",
-		"markdown-it": "^8.4.2"
+		"markdown-it": "^8.4.2",
+		"rimraf": "^2.6.3"
 	}
 }

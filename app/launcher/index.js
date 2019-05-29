@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const AdmZip = require('adm-zip');
 const os = require('os');
 const path = require('path');
+const rimraf = require('rimraf');
 let wv;
 
 exports.main = async function(webview) {
@@ -33,6 +34,16 @@ exports.install = async function() {
   const zip = new AdmZip(appPath);
   zip.extractAllTo(appDirPath, true);
   await updateApps();
+}
+
+exports.removeApp = async function(id) {
+  const appDirPath = path.join(os.homedir(), '.vscode-toolkit', id);
+  rimraf(appDirPath, (error) => {
+    if (error) {
+      return;
+    }
+    updateApps();
+  });
 }
 
 async function updateApps() {

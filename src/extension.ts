@@ -26,17 +26,18 @@ export async function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        new Launcher('::launcher').run();
+        await vscode.commands.executeCommand(
+            'vscode-toolkit.launch', '::launcher');
       });
 
   let getApps = vscode.commands.registerCommand(
       'vscode-toolkit.getApps', Gallery.getApps);
 
-  let launcher =
-      vscode.commands.registerCommand('vscode-toolkit.launch', async (id: string) => {
+  let launcher = vscode.commands.registerCommand(
+      'vscode-toolkit.launch', async (id: string) => {
         if (WebviewStack.stack[id]) {
           WebviewStack.stack[id].show();
-          return;
+          return WebviewStack.stack[id];
         }
         const launcher = new Launcher(id);
         try {
@@ -45,11 +46,21 @@ export async function activate(context: vscode.ExtensionContext) {
         } catch (error) {
           Notification.log((error as Error).message);
         }
+        return WebviewStack.stack[id];
+      });
+
+  let updateApps =
+      vscode.commands.registerCommand('vscode-toolkit.updateApps', async () => {
+        const appList = await Gallery.getApps();
+        const wv = await vscode.commands.executeCommand(
+                       'vscode-toolkit.launch', '::launcher') as Webview;
+        wv.send(appList);
       });
 
   context.subscriptions.push(gallery);
   context.subscriptions.push(getApps);
   context.subscriptions.push(launcher);
+  context.subscriptions.push(updateApps);
 }
 
 export function deactivate() {}

@@ -4,6 +4,7 @@ const AdmZip = require('adm-zip');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
+const vscode = require('vscode');
 
 async function get(url) {
   return new Promise((resolve, reject) => {
@@ -71,6 +72,7 @@ exports.install = async function(repo, release, bin) {
       const appDirPath = path.join(os.homedir(), '.vscode-toolkit', id);
       const zip = new AdmZip(tmpPath);
       zip.extractAllTo(appDirPath, true);
+      vscode.commands.executeCommand('vscode-toolkit.updateApps');
       resolve();
       return;
     });

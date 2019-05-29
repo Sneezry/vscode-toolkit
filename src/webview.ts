@@ -122,7 +122,7 @@ export class Webview {
     }, this);
   }
 
-  send(message: string) {
+  send(message: any) {
     if (this.panel) {
       this.panel.webview.postMessage({type: 'message', payload: message});
     }
