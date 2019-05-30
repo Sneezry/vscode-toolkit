@@ -1,4 +1,4 @@
-import {Webview} from './webview';
+import { Webview } from './webview';
 export class WebviewStack {
-  static stack: {[id: string]: Webview} = {};
+  static stack: { [id: string]: Webview } = {};
 }

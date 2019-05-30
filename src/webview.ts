@@ -2,15 +2,19 @@ import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
-import {FsPromise} from './fsPromise';
-import {Launcher} from './launcher';
-import {WebviewStack} from './webviewStack';
+import { FsPromise } from './fsPromise';
+import { Launcher } from './launcher';
+import { WebviewStack } from './webviewStack';
 
 export class Webview {
-  private panel: vscode.WebviewPanel|undefined;
+  private panel: vscode.WebviewPanel | undefined;
   constructor(
-      private id: string, private isBuiltinApp: boolean, private name: string,
-      private rootPath: string, private launcher: Launcher) {}
+    private id: string,
+    private isBuiltinApp: boolean,
+    private name: string,
+    private rootPath: string,
+    private launcher: Launcher
+  ) {}
 
   async show() {
     if (this.panel) {
@@ -22,8 +26,9 @@ export class Webview {
     if (!pageExsits) {
       throw new Error('Cannot open index.html');
     }
-    const rootPathFs =
-        vscode.Uri.file(this.rootPath).with({scheme: 'vscode-resource'});
+    const rootPathFs = vscode.Uri.file(this.rootPath).with({
+      scheme: 'vscode-resource',
+    });
     const rootPath = rootPathFs.toString() + '/';
     let html = await FsPromise.readFile(pagePath);
     let titleMath = html.match('<title>(.*?)</title>');
@@ -71,31 +76,41 @@ export class Webview {
     </script>`;
     if (/(<head(\s.*)?>)/.test(html)) {
       html = html.replace(
-          /(<head(\s.*)?>)/, `$1<base href="${rootPath}">${injectScript}`);
+        /(<head(\s.*)?>)/,
+        `$1<base href="${rootPath}">${injectScript}`
+      );
     } else if (/(<html(\s.*)?>)/.test(html)) {
       html = html.replace(
-          /(<html(\s.*)?>)/,
-          `$1<head><base href="${rootPath}">${injectScript}</head>`);
+        /(<html(\s.*)?>)/,
+        `$1<head><base href="${rootPath}">${injectScript}</head>`
+      );
     } else {
       html = `<head><base href="${rootPath}">${injectScript}</head>${html}`;
     }
 
-    const builtinAppDir =
-        vscode.Uri.file(path.join(__dirname, '..', 'app')).with({
-          scheme: 'vscode-resource'
-        });
-    const rootAppDir =
-        vscode.Uri.file(path.join(os.homedir(), '.vscode-toolkit')).with({
-          scheme: 'vscode-resource'
-        });
+    const builtinAppDir = vscode.Uri.file(
+      path.join(__dirname, '..', 'app')
+    ).with({
+      scheme: 'vscode-resource',
+    });
+    const rootAppDir = vscode.Uri.file(
+      path.join(os.homedir(), '.vscode-toolkit')
+    ).with({
+      scheme: 'vscode-resource',
+    });
     this.panel = vscode.window.createWebviewPanel(
-        'vscode-toolkit', title, vscode.ViewColumn.One, {
-          enableScripts: true,
-          enableCommandUris: true,
-          retainContextWhenHidden: true,
-          localResourceRoots: this.isBuiltinApp ? [builtinAppDir, rootAppDir] :
-                                                  [rootPathFs]
-        });
+      'vscode-toolkit',
+      title,
+      vscode.ViewColumn.One,
+      {
+        enableScripts: true,
+        enableCommandUris: true,
+        retainContextWhenHidden: true,
+        localResourceRoots: this.isBuiltinApp
+          ? [builtinAppDir, rootAppDir]
+          : [rootPathFs],
+      }
+    );
     this.panel.webview.html = html;
     this.panel.webview.onDidReceiveMessage(async message => {
       const type = message.type;
@@ -103,18 +118,19 @@ export class Webview {
         return;
       }
       const messageId = message.messageId;
-      const result =
-          await this.launcher.entry[message.key].apply(null, message.args);
+      const result = await this.launcher.entry[message.key].apply(
+        null,
+        message.args
+      );
       if (this.panel) {
-        this.panel.webview.postMessage({type, messageId, result});
+        this.panel.webview.postMessage({ type, messageId, result });
       }
     });
     this.panel.onDidDispose(() => {
       try {
         delete WebviewStack.stack[this.id];
         this.launcher.entry.destroy();
-      } catch (ignore) {
-      }
+      } catch (ignore) {}
 
       delete this.panel;
       delete this.launcher.entry;
@@ -124,7 +140,7 @@ export class Webview {
 
   send(message: any) {
     if (this.panel) {
-      this.panel.webview.postMessage({type: 'message', payload: message});
+      this.panel.webview.postMessage({ type: 'message', payload: message });
     }
   }
 }

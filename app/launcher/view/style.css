@@ -7,6 +7,10 @@
   }
 }
 
+:root {
+  --jiggle-delay: 0s; 
+}
+
 html, body {
   height: 100%;
 }
@@ -22,7 +26,7 @@ body {
 }
 
 #apps[jiggle] .app {
-  animation: jiggle 0.2s infinite;
+  animation: jiggle 0.2s linear var(--jiggle-delay) infinite;
 }
 
 .app {

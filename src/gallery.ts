@@ -1,7 +1,7 @@
 import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import {FsPromise} from './fsPromise';
+import { FsPromise } from './fsPromise';
 
 export class Gallery {
   private static getRootFolder() {
@@ -23,13 +23,15 @@ export class Gallery {
       return null;
     }
 
-    const packageJson =
-        await import(packageJsonPath) as {displayName: string, icon: string};
+    const packageJson = (await import(packageJsonPath)) as {
+      displayName: string;
+      icon: string;
+    };
     const displayName = packageJson.displayName;
     const icon = vscode.Uri.file(path.join(fsPath, packageJson.icon))
-                     .with({scheme: 'vscode-resource'})
-                     .toString();
-    return {id: path.basename(fsPath), displayName, icon};
+      .with({ scheme: 'vscode-resource' })
+      .toString();
+    return { id: path.basename(fsPath), displayName, icon };
   }
 
   static async init() {
@@ -41,7 +43,7 @@ export class Gallery {
   }
 
   static async getApps() {
-    const apps: Array<{id: string, displayName: string, icon: string}> = [];
+    const apps: Array<{ id: string; displayName: string; icon: string }> = [];
     const toolkitDir = Gallery.getRootFolder();
     const files = await FsPromise.readdir(toolkitDir);
     for (const file of files) {

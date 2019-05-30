@@ -4,7 +4,10 @@ const channel = vscode.window.createOutputChannel('Beaker');
 
 export class Notification {
   static show(
-      level: 'info'|'error'|'warning', message: string, details?: string) {
+    level: 'info' | 'error' | 'warning',
+    message: string,
+    details?: string
+  ) {
     if (details) {
       channel.show();
       channel.appendLine(details);
